@@ -1,8 +1,8 @@
 CXX=g++
 CXXFLAGS=-Wall -Wextra -pedantic -std=c++17
 
-SRC_FILES=src/matrix4.cpp src/main.cpp src/vector3.cc src/fructum.cpp
-OBJ_FILES=src/matrix4.o src/main.o src/vector3.o src/fructum.o
+SRC_FILES=src/matrix4.cpp src/main.cpp src/vector3.cc src/fructum.cpp src/program/program.cpp
+OBJ_FILES=src/matrix4.o src/main.o src/vector3.o src/fructum.o src/program/program.o
 
 all: ${OBJ_FILES}
 	${CXX} -o out ${CXX_FLAGS} ${OBJ_FILES}
