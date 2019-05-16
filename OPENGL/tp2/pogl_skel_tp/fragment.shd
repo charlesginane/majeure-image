@@ -1,0 +1,15 @@
+#version 450
+
+uniform sampler2D texture_sampler;
+uniform sampler2D lighting_sampler;
+uniform sampler2D normalmap_sampler;
+
+in vec3 o_color;
+in vec3 interpolated_color;
+out vec4 output_color;
+
+void main() {
+    // output_color = vec4(1.0, 1.0, 0, 1.0); // q1
+    output_color = vec4(o_color, 1.0);
+
+}
