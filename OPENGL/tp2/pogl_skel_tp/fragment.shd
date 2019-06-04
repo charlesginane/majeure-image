@@ -4,12 +4,31 @@ uniform sampler2D texture_sampler;
 uniform sampler2D lighting_sampler;
 uniform sampler2D normalmap_sampler;
 
+in vec2 uv_inter;
 in vec3 o_color;
-in vec3 interpolated_color;
+in vec4 interpolated_color;
 out vec4 output_color;
 
 void main() {
     // output_color = vec4(1.0, 1.0, 0, 1.0); // q1
-    output_color = vec4(o_color, 1.0);
+    // output_color = vec4(o_color, 1.0);
 
+    // q4-2
+    // vec4 texel = texture2D(texture_sampler, uv_inter);
+    // output_color = vec4(texel.rgb, 1.0);
+
+    // q4-3
+    // vec4 texel = texture2D(texture_sampler, uv_inter);
+    // output_color = interpolated_color * vec4(texel.rgb, 1.0);
+
+    // q4-4 --- TODO
+    // vec4 texel = texture2D(texture_sampler, uv_inter);
+    // vec4 lixel = texture2D(lighting_sampler, uv_inter);
+    // output_color = vec4(texel.rgb, 1.0) * vec4(lixel.rgb, 1.0);
+
+    // q5-1
+    // float gray = (o_color.r + o_color.g + o_color.b) / 3;
+    // output_color = vec4(gray, gray, gray, 1.0);
+
+    
 }
