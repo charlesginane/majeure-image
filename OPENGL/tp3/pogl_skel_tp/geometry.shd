@@ -1,0 +1,30 @@
+#version 450
+
+layout(triangles) in;
+layout(points, max_vertices=1) out; // Question 2
+
+in vec3 col[3];
+out vec3 color;
+
+mat4 model_view_matrix = mat4(
+			      0.57735, -0.33333, 0.57735, 0.00000,
+			      0.00000, 0.66667, 0.57735, 0.00000,
+			      -0.57735, -0.33333, 0.57735, 0.00000,
+			      0.00000, 0.00000, -17, 1.00000);
+mat4 projection_matrix = mat4(
+			      15.00000, 0.00000, 0.00000, 0.00000,
+			      0.00000, 15.00000, 0.00000, 0.00000,
+			      0.00000, 0.00000, -1.00020, -1.00000,
+			      0.00000, 0.00000, -10.00100, 0.00000);
+
+void main() {
+    gl_Position = gl_in[0].gl_Position + vec4(-0.1, 0.0, 0.0, 0.0); 
+	color = (col[0] + col[1] + col[2]) / 3.0;
+    EmitVertex();
+
+    gl_Position = gl_in[0].gl_Position + vec4( 0.1, 0.0, 0.0, 0.0);
+	color = (col[0] + col[1] + col[2]) / 3.0;
+    EmitVertex();
+
+    EndPrimitive();
+}
