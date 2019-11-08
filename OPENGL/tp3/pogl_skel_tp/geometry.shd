@@ -2,33 +2,46 @@
 
 layout(triangles) in;
 // layout(points, max_vertices=1) out; // Question 2
-layout(line_strip, max_vertices=2) out; // Question 3
+layout(line_strip, max_vertices=15) out; // Question 3
 
 in vec3 col[3];
 in vec4 gs_normal[3];
 out vec3 color;
 
+mat4 model_view_matrix = mat4(
+			      0.57735, -0.33333, 0.57735, 0.00000,
+			      0.00000, 0.66667, 0.57735, 0.00000,
+			      -0.57735, -0.33333, 0.57735, 0.00000,
+			      0.00000, 0.00000, -17, 1.00000);
+mat4 projection_matrix = mat4(
+			      15.00000, 0.00000, 0.00000, 0.00000,
+			      0.00000, 15.00000, 0.00000, 0.00000,
+			      0.00000, 0.00000, -1.00020, -1.00000,
+			      0.00000, 0.00000, -10.00100, 0.00000);
+
 void main() {
-	// question 2
-    vec4 origin = (gl_in[0].gl_Position + gl_in[1].gl_Position + gl_in[2].gl_Position + vec4(-0.1, 0.0, 0.0, 0.0)) / 3.0;
+    vec4 origin = (gl_in[0].gl_Position + gl_in[1].gl_Position + gl_in[2].gl_Position ) / 3.0;
 	gl_Position = origin;
 	color = (col[0] + col[1] + col[2]) / 3.0;
     EmitVertex();
 
+	// question 3
+	//vec4 normal = (gs_normal[0] + gs_normal[1] + gs_normal[2]) / 3.0;
+	//gl_Position = origin + 0.3 * normal;
+	//color = (col[0] + col[1] + col[2]) / 3.0;
+	EmitVertex();
+
+	float fur_length = 1;
+	float step = 10;
 	vec4 normal = (gs_normal[0] + gs_normal[1] + gs_normal[2]) / 3.0;
-	gl_Position = origin + normal;
-	color = (col[0] + col[1] + col[2]) / 3.0;
-	EmitVertex();
+	for (float t = 0; t < fur_length; t += step) {
+		vec3 p1 = 0.05 * normal.xyz * t + origin.xyz + vec3(0.0, 0.5, 0.0);
+		color = (col[0] + col[1] + col[2]) / 3.0;
 
-    origin = (gl_in[0].gl_Position + gl_in[1].gl_Position + gl_in[2].gl_Position + vec4( 0.1, 0.0, 0.0, 0.0)) / 3.0;
-	gl_Position = origin;
-	color = (col[0] + col[1] + col[2]) / 3.0;
-    EmitVertex();
+		gl_Position = model_view_matrix * projection_matrix * vec4(p1, 1.0);
+		EmitVertex();
 
-	normal = (gs_normal[0] + gs_normal[1] + gs_normal[2]) / 3.0;
-	gl_Position = origin + normal;
-	color = (col[0] + col[1] + col[2]) / 3.0;
-	EmitVertex();
+	}
 
     EndPrimitive();
 }
